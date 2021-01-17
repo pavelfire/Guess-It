@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.android.guesstheword.R
 import com.example.android.guesstheword.databinding.GameFragmentBinding
+import kotlinx.android.synthetic.main.game_fragment.*
 
 /**
  * Fragment where the game is played
@@ -75,6 +76,9 @@ class GameFragment : Fragment() {
                 gameFinished()
                 viewModel.onGameFinishComplete()
             }
+        })
+        viewModel.show_timer.observe(viewLifecycleOwner, Observer { timer_text ->
+            binding.timerText.text = timer_text.toString()
         })
 
         return binding.root
