@@ -58,13 +58,9 @@ class GameFragment : Fragment() {
 
         binding.correctButton.setOnClickListener {
             viewModel.onCorrect()
-            //updateScoreText()
-            //updateWordText()
         }
         binding.skipButton.setOnClickListener {
             viewModel.onSkip()
-            //updateScoreText()
-            //updateWordText()
         }
 
         viewModel.score.observe(viewLifecycleOwner, Observer{newScore ->
@@ -73,8 +69,6 @@ class GameFragment : Fragment() {
         viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
             binding.wordText.text = newWord.toString()
         })
-        //updateScoreText()
-        //updateWordText()
 
         return binding.root
 
@@ -91,16 +85,4 @@ class GameFragment : Fragment() {
         findNavController(this).navigate(action)
     }
 
-
-
-    /** Methods for updating the UI **/
-
-    //private fun updateWordText() {
-        //binding.wordText.text = viewModel.word
-
-    //}
-
-    //private fun updateScoreText() {
-    //    binding.scoreText.text = viewModel.score.toString()
-    //}
 }
