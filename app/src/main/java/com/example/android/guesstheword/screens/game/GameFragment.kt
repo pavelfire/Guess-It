@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.android.guesstheword.R
@@ -37,7 +38,6 @@ import kotlinx.android.synthetic.main.game_fragment.*
 class GameFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
-
 
 
     private lateinit var binding: GameFragmentBinding
@@ -54,37 +54,45 @@ class GameFragment : Fragment() {
         )
 
         Log.i("GameFragment", "Called ViewModelProviders.of!")
-        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        //Get the viewModel
+        //viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)//old, deprecated
+        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
+        binding.gameViewModelXML = viewModel
+        binding.setLifecycleOwner(this)
 
-
+        /*now this work in game_fragment.xml
         binding.correctButton.setOnClickListener {
             viewModel.onCorrect()
         }
         binding.skipButton.setOnClickListener {
             viewModel.onSkip()
         }
-
-        viewModel.score.observe(viewLifecycleOwner, Observer{newScore ->
-            binding.scoreText.text = newScore.toString()//viewModel.score.toString()
-        })
         viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
             binding.wordText.text = newWord.toString()
         })
-        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer { hasFinished ->
-            if(hasFinished){
-                gameFinished()
-                viewModel.onGameFinishComplete()
-            }
+        viewModel.score.observe(viewLifecycleOwner, Observer{newScore ->
+            binding.scoreText.text = newScore.toString()//viewModel.score.toString()
         })
+
+
+        */
         viewModel.show_timer.observe(viewLifecycleOwner, Observer { timer_text ->
             binding.timerText.text = timer_text.toString()
         })
 
+
+        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer { hasFinished ->
+            if (hasFinished) {
+                gameFinished()
+                viewModel.onGameFinishComplete()
+            }
+        })
+
+
         return binding.root
 
     }
-
 
 
     /**
